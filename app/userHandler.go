@@ -9,14 +9,14 @@ import (
 	"github.com/mrmtsu/go-eats/domain"
 )
 
-func GetAllRestaurant (w http.ResponseWriter, r *http.Request) {
+func GetAllRestaurant(w http.ResponseWriter, r *http.Request) {
 	users := []domain.User{}
 	DB.Find(&users)
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(users)
 }
 
-func GetRestaurant (w http.ResponseWriter, r *http.Request) {
+func GetRestaurant(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
 	fmt.Println(params)
 	userId := params["id"]
@@ -27,7 +27,7 @@ func GetRestaurant (w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(user)
 }
 
-func CreaetRestaurant (w http.ResponseWriter, r *http.Request) {
+func CreaetRestaurant(w http.ResponseWriter, r *http.Request) {
 	user := domain.User{}
 	json.NewDecoder(r.Body).Decode(&user)
 	DB.Create(&user)
@@ -35,7 +35,7 @@ func CreaetRestaurant (w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(user)
 }
 
-func UpdateRestaurant (w http.ResponseWriter, r *http.Request) {
+func UpdateRestaurant(w http.ResponseWriter, r *http.Request) {
 	user := domain.User{}
 	json.NewDecoder(r.Body).Decode(&user)
 	DB.Save(&user)
@@ -43,7 +43,7 @@ func UpdateRestaurant (w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(user)
 }
 
-func DeleteRestaurant (w http.ResponseWriter, r *http.Request) {
+func DeleteRestaurant(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
 	userId := params["id"]
 	DB.Delete(domain.User{}, userId)

@@ -28,11 +28,19 @@ func Start() {
 
 	dbConnect()
 
+	// User
 	router.HandleFunc("/api/restaurant", GetAllRestaurant).Methods("GET")
 	router.HandleFunc("/api/restaurant", CreaetRestaurant).Methods("POST")
 	router.HandleFunc("/api/restaurant/{id}", GetRestaurant).Methods("GET")
 	router.HandleFunc("/api/restaurant/{id}", UpdateRestaurant).Methods("PUT")
 	router.HandleFunc("/api/restaurant/{id}", DeleteRestaurant).Methods("DELETE")
+
+	// Article
+	router.HandleFunc("/api/foods", GetAllFoods).Methods("GET")
+	router.HandleFunc("/api/food", CreateAllFood).Methods("POST")
+	router.HandleFunc("/api/food/{id}", GetFood).Methods("GET")
+	router.HandleFunc("/api/food/{id}", UpdateFood).Methods("PUT")
+	router.HandleFunc("/api/food/{id}", DeleteFood).Methods("DELETE")
 
 	port := os.Getenv("SERVER_PORT")
 	http.ListenAndServe(fmt.Sprintf(":%s", port), router)
@@ -47,7 +55,7 @@ func dbConnect() {
 	port := os.Getenv("DB_PORT")
 	database_name := os.Getenv("DB_DATABASE_NAME")
 
-	dns := user + ":" + password + "@tcp(" + host + ":" + port + ")/" + database_name + "?charset=utf8mb4"
+	dns := user + ":" + password + "@tcp(" + host + ":" + port + ")/" + database_name + "?charset=utf8"
 	database, err := gorm.Open(mysql.Open(dns), &gorm.Config{})
 	if err != nil {
 		fmt.Println(err.Error())
@@ -55,5 +63,5 @@ func dbConnect() {
 
 	DB = database
 
-	database.AutoMigrate(&domain.User{})
+	database.AutoMigrate(&domain.User{}, &domain.Article{})
 }
