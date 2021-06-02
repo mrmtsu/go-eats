@@ -31,6 +31,8 @@ func Start() {
 	router.HandleFunc("/api/restaurant", GetAllRestaurant).Methods("GET")
 	router.HandleFunc("/api/restaurant", CreaetRestaurant).Methods("POST")
 	router.HandleFunc("/api/restaurant/{id}", GetRestaurant).Methods("GET")
+	router.HandleFunc("/api/restaurant/{id}", UpdateRestaurant).Methods("PUT")
+	router.HandleFunc("/api/restaurant/{id}", DeleteRestaurant).Methods("DELETE")
 
 	port := os.Getenv("SERVER_PORT")
 	http.ListenAndServe(fmt.Sprintf(":%s", port), router)

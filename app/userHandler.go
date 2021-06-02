@@ -10,10 +10,10 @@ import (
 )
 
 func GetAllRestaurant (w http.ResponseWriter, r *http.Request) {
-	users := domain.User{}
+	users := []domain.User{}
 	DB.Find(&users)
 	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(&users)
+	json.NewEncoder(w).Encode(users)
 }
 
 func GetRestaurant (w http.ResponseWriter, r *http.Request) {
@@ -24,7 +24,7 @@ func GetRestaurant (w http.ResponseWriter, r *http.Request) {
 	user := domain.User{}
 	DB.Find(&user, userId)
 	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(&user)
+	json.NewEncoder(w).Encode(user)
 }
 
 func CreaetRestaurant (w http.ResponseWriter, r *http.Request) {
@@ -32,5 +32,20 @@ func CreaetRestaurant (w http.ResponseWriter, r *http.Request) {
 	json.NewDecoder(r.Body).Decode(&user)
 	DB.Create(&user)
 	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(&user)
+	json.NewEncoder(w).Encode(user)
+}
+
+func UpdateRestaurant (w http.ResponseWriter, r *http.Request) {
+	user := domain.User{}
+	json.NewDecoder(r.Body).Decode(&user)
+	DB.Save(&user)
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(user)
+}
+
+func DeleteRestaurant (w http.ResponseWriter, r *http.Request) {
+	params := mux.Vars(r)
+	userId := params["id"]
+	DB.Delete(domain.User{}, userId)
+	w.WriteHeader(http.StatusNoContent)
 }
