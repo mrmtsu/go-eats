@@ -2,7 +2,6 @@ package app
 
 import (
 	"encoding/json"
-	"fmt"
 	"net/http"
 
 	"github.com/gorilla/mux"
@@ -10,19 +9,20 @@ import (
 )
 
 func GetAllRestaurant(w http.ResponseWriter, r *http.Request) {
+	data := DB.Preload("Article.User").Begin()
 	users := []domain.User{}
-	DB.Find(&users)
+	data.Find(&users)
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(users)
 }
 
 func GetRestaurant(w http.ResponseWriter, r *http.Request) {
+	data := DB.Preload("Article.User").Begin()
 	params := mux.Vars(r)
-	fmt.Println(params)
 	userId := params["id"]
 
 	user := domain.User{}
-	DB.Find(&user, userId)
+	data.Find(&user, userId)
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(user)
 }

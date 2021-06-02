@@ -29,7 +29,7 @@ func Start() {
 	dbConnect()
 
 	// User
-	router.HandleFunc("/api/restaurant", GetAllRestaurant).Methods("GET")
+	router.HandleFunc("/api/restaurants", GetAllRestaurant).Methods("GET")
 	router.HandleFunc("/api/restaurant", CreaetRestaurant).Methods("POST")
 	router.HandleFunc("/api/restaurant/{id}", GetRestaurant).Methods("GET")
 	router.HandleFunc("/api/restaurant/{id}", UpdateRestaurant).Methods("PUT")
