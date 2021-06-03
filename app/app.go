@@ -25,8 +25,17 @@ func Start() {
 	sanityCheck()
 
 	router := mux.NewRouter()
+	s := router.PathPrefix("/api/auth").Subrouter().StrictSlash(false)
 
 	dbConnect()
+
+	// Auth
+	router.HandleFunc("/api/register", Register).Methods("POST")
+	router.HandleFunc("/api/login", Login).Methods("POST")
+
+	// Middleware
+	s.Handle("/user", IsAuthenticated(http.HandlerFunc(User))).Methods("GET")
+	router.HandleFunc("/api/logout", Logout).Methods("GET")
 
 	// User
 	router.HandleFunc("/api/restaurants", GetAllRestaurant).Methods("GET")
@@ -63,5 +72,5 @@ func dbConnect() {
 
 	DB = database
 
-	database.AutoMigrate(&domain.User{}, &domain.Article{})
+	database.AutoMigrate(&domain.User{}, &domain.Article{}, &domain.Comment{})
 }

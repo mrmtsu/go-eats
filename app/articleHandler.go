@@ -47,4 +47,3 @@ func DeleteFood(w http.ResponseWriter, r *http.Request) {
 	DB.Delete(domain.Article{}, articleId)
 	w.WriteHeader(http.StatusNoContent)
 }
-

@@ -6,4 +6,5 @@ type Article struct {
 	Description string `json:"description"`
 	UserId      uint   `json:"user_id"`
 	User        User   `json:"user" gorm:"foreignKey:UserId"`
+	Comment     []Comment `json:"-"`
 }
