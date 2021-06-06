@@ -85,7 +85,7 @@ func Login(w http.ResponseWriter, r *http.Request) {
 	http.SetCookie(w, cookie)
 
 	w.Header().Set("Content-Type", "apllication/json")
-	json.NewEncoder(w).Encode(token)
+	json.NewEncoder(w).Encode(user)
 }
 
 type Claims struct {

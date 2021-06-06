@@ -2,9 +2,6 @@ package app
 
 import (
 	"net/http"
-	_ "os"
-
-	_ "github.com/dgrijalva/jwt-go"
 )
 
 func IsAuthenticated(next http.Handler) http.Handler {
@@ -14,11 +11,11 @@ func IsAuthenticated(next http.Handler) http.Handler {
 			http.Error(w, "No admin cookie", http.StatusForbidden)
 			return
 		}
+		next.ServeHTTP(w, r)
 		// cookie, _ := r.Cookie("jwt")
 		// if _, err := ParseJwt(cookie.Value); err != nil {
 		// 	http.Error(w, "No admin cookie", http.StatusForbidden)
 		// }
-		// next.ServeHTTP(w, r)
 	})
 }
 
