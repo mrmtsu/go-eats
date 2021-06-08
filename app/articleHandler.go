@@ -8,14 +8,14 @@ import (
 	"github.com/mrmtsu/go-eats/domain"
 )
 
-func GetAllFoods(w http.ResponseWriter, r *http.Request) {
+func GetAllArticles(w http.ResponseWriter, r *http.Request) {
 	articles := []domain.Article{}
 	DB.Preload("User").Find(&articles)
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(articles)
 }
 
-func GetFood(w http.ResponseWriter, r *http.Request) {
+func GetArticles(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
 	articleId := params["id"]
 
@@ -25,7 +25,7 @@ func GetFood(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(article)
 }
 
-func CreateAllFood(w http.ResponseWriter, r *http.Request) {
+func CreateAllArticles(w http.ResponseWriter, r *http.Request) {
 	article := domain.Article{}
 	json.NewDecoder(r.Body).Decode(&article)
 	DB.Create(&article)
@@ -33,7 +33,7 @@ func CreateAllFood(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(article)
 }
 
-func UpdateFood(w http.ResponseWriter, r *http.Request) {
+func UpdateArticles(w http.ResponseWriter, r *http.Request) {
 	article := domain.Article{}
 	json.NewDecoder(r.Body).Decode(&article)
 	DB.Save(&article)
@@ -41,7 +41,7 @@ func UpdateFood(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(article)
 }
 
-func DeleteFood(w http.ResponseWriter, r *http.Request) {
+func DeleteArticles(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
 	articleId := params["id"]
 	DB.Delete(domain.Article{}, articleId)

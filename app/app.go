@@ -38,18 +38,18 @@ func Start() {
 	router.HandleFunc("/api/logout", Logout).Methods("GET")
 
 	// User
-	router.HandleFunc("/api/restaurants", GetAllRestaurant).Methods("GET")
-	router.HandleFunc("/api/restaurant", CreaetRestaurant).Methods("POST")
-	router.HandleFunc("/api/restaurant/{id}", GetRestaurant).Methods("GET")
-	router.HandleFunc("/api/restaurant/{id}", UpdateRestaurant).Methods("PUT")
-	router.HandleFunc("/api/restaurant/{id}", DeleteRestaurant).Methods("DELETE")
+	s.Handle("/users", IsAuthenticated(http.HandlerFunc(GetAllUsers))).Methods("GET")
+	s.Handle("/users", IsAuthenticated(http.HandlerFunc(CreaetUsers))).Methods("POST")
+	s.Handle("/users/{id}", IsAuthenticated(http.HandlerFunc(GetUsers))).Methods("GET")
+	s.Handle("/users/{id}", IsAuthenticated(http.HandlerFunc(UpdateUsers))).Methods("PUT")
+	s.Handle("/users/{id}", IsAuthenticated(http.HandlerFunc(DeleteUsers))).Methods("DELETE")
 
 	// Article
-	router.HandleFunc("/api/foods", GetAllFoods).Methods("GET")
-	router.HandleFunc("/api/food", CreateAllFood).Methods("POST")
-	router.HandleFunc("/api/food/{id}", GetFood).Methods("GET")
-	router.HandleFunc("/api/food/{id}", UpdateFood).Methods("PUT")
-	router.HandleFunc("/api/food/{id}", DeleteFood).Methods("DELETE")
+	s.Handle("/articles", IsAuthenticated(http.HandlerFunc(GetAllArticles))).Methods("GET")
+	s.Handle("/articles", IsAuthenticated(http.HandlerFunc(CreateAllArticles))).Methods("POST")
+	s.Handle("/articles/{id}", IsAuthenticated(http.HandlerFunc(GetArticles))).Methods("GET")
+	s.Handle("/articles/{id}", IsAuthenticated(http.HandlerFunc(UpdateArticles))).Methods("PUT")
+	s.Handle("/articles/{id}", IsAuthenticated(http.HandlerFunc(DeleteArticles))).Methods("DELETE")
 
 	port := os.Getenv("SERVER_PORT")
 	http.ListenAndServe(fmt.Sprintf(":%s", port), router)

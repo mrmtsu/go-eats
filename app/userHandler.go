@@ -8,7 +8,7 @@ import (
 	"github.com/mrmtsu/go-eats/domain"
 )
 
-func GetAllRestaurant(w http.ResponseWriter, r *http.Request) {
+func GetAllUsers(w http.ResponseWriter, r *http.Request) {
 	data := DB.Preload("Article.User").Begin()
 	users := []domain.User{}
 	data.Find(&users)
@@ -16,7 +16,7 @@ func GetAllRestaurant(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(users)
 }
 
-func GetRestaurant(w http.ResponseWriter, r *http.Request) {
+func GetUsers(w http.ResponseWriter, r *http.Request) {
 	data := DB.Preload("Article.User").Begin()
 	params := mux.Vars(r)
 	userId := params["id"]
@@ -27,7 +27,7 @@ func GetRestaurant(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(user)
 }
 
-func CreaetRestaurant(w http.ResponseWriter, r *http.Request) {
+func CreaetUsers(w http.ResponseWriter, r *http.Request) {
 	user := domain.User{}
 	json.NewDecoder(r.Body).Decode(&user)
 	DB.Create(&user)
@@ -35,7 +35,7 @@ func CreaetRestaurant(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(user)
 }
 
-func UpdateRestaurant(w http.ResponseWriter, r *http.Request) {
+func UpdateUsers(w http.ResponseWriter, r *http.Request) {
 	user := domain.User{}
 	json.NewDecoder(r.Body).Decode(&user)
 	DB.Save(&user)
@@ -43,7 +43,7 @@ func UpdateRestaurant(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(user)
 }
 
-func DeleteRestaurant(w http.ResponseWriter, r *http.Request) {
+func DeleteUsers(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
 	userId := params["id"]
 	DB.Delete(domain.User{}, userId)
