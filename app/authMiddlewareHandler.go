@@ -11,11 +11,11 @@ import (
 func IsAuthenticated(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		cookie, err := r.Cookie("jwt")
-    if err != nil {
+		if err != nil {
 			w.WriteHeader(http.StatusUnauthorized)
 			fmt.Fprint(w, err.Error())
 			return
-    }
+		}
 		if _, err := ParseJwt(cookie.Value); err != nil {
 			w.WriteHeader(http.StatusUnauthorized)
 			return
