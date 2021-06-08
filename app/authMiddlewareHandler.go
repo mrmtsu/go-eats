@@ -1,7 +1,7 @@
 package app
 
 import (
-	"log"
+	"fmt"
 	"net/http"
 	"os"
 
@@ -10,18 +10,15 @@ import (
 
 func IsAuthenticated(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		// _, err := r.Cookie("jwt")
-		// if err != nil {
-		// 	http.Error(w, "No admin cookie", http.StatusForbidden)
-		// 	return
-		// }
-		// next.ServeHTTP(w, r)
 		cookie, err := r.Cookie("jwt")
-     if err != nil {
-          log.Fatal("Cookie: ", err)
-     }
+    if err != nil {
+			w.WriteHeader(http.StatusUnauthorized)
+			fmt.Fprint(w, err.Error())
+			return
+    }
 		if _, err := ParseJwt(cookie.Value); err != nil {
-			http.Error(w, "No admin cookie", http.StatusForbidden)
+			w.WriteHeader(http.StatusUnauthorized)
+			return
 		}
 		next.ServeHTTP(w, r)
 	})

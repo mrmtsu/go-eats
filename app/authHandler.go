@@ -94,16 +94,6 @@ type Claims struct {
 
 func User(w http.ResponseWriter, r *http.Request) {
 	cookie, _ := r.Cookie("jwt")
-
-	// token, err := jwt.ParseWithClaims(cookie.Value, &Claims{}, func(t *jwt.Token) (interface{}, error) {
-	// 	return []byte(os.Getenv("SIGNINGKEY")), nil
-	// })
-	// if err != nil || !token.Valid {
-	// 	log.Println("Error while scaning user" + err.Error())
-	// }
-
-	// claims := token.Claims.(*Claims)
-	// id := claims.Issuer
 	id, _ := ParseJwt(cookie.Value)
 
 	var user domain.User
